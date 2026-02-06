@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"ariga.io/atlas/sql/postgres"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
