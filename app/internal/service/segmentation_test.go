@@ -2,6 +2,8 @@ package service
 
 import (
 	"go-concurrent-importer/internal/adapter/entity"
+	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -10,13 +12,12 @@ import (
 
 
 type dbFake struct{
-	segmentations map[int64][]entity.Segmentation
+	segs        sync.Map // key: int64 | value: []entity.Segmentation
+	segsCounter int64
 }
 
 func newDBFake() *dbFake {
-	return &dbFake{
-		segmentations: make(map[int64][]entity.Segmentation),
-	}
+	return &dbFake{}
 }
 
 type segFakeRepo struct{
@@ -30,13 +31,13 @@ func newSegFakeRepo(db *dbFake) *segFakeRepo{
 }
 
 func (s *segFakeRepo) Save(data entity.Segmentation) error {
-	lastID := int64(len(s.db.segmentations) + 1)
+	lastID := atomic.AddInt64(&s.db.segsCounter, 1)
 
 	data.ID = lastID
 	data.CreatedAt = time.Now().UTC()
 	data.UpdatedAt = time.Now().UTC()
 
-	s.db.segmentations[lastID] = append(s.db.segmentations[lastID], data)
+	s.db.segs.Store(lastID, []entity.Segmentation{data})
 
 	return nil
 }
@@ -60,5 +61,5 @@ func TestProcessRecord(t *testing.T) {
 	srvc.ProcessRecord(record)
 
 	// assert
-	assert.Equal(t, len(db.segmentations), 1)
+	assert.Equal(t, db.segsCounter, int64(1))
 }
