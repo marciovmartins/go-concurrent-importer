@@ -50,18 +50,21 @@ func TestProcessRecord(t *testing.T) {
 	repo := newSegFakeRepo(db)
 	srvc := NewSegmentationService(repo)
 
-	record := []string{
-		"1",
-		"PATIENT",
-		"João Silva",
-		`{"age":45,"gender":"M","risk":"high"}`,
+	records := [][]string{
+		{
+			"1",
+			"PATIENT",
+			"João Silva",
+			`{"age":45,"gender":"M","risk":"high"}`,
+		},
 	}
 
-	actualCount := db.segsCounter+1 // unsual in deterministic tests but, good for concurrent tests with `-race` parameter
+	expectedCount := db.segsCounter + 1
 
 	// act
-	srvc.ProcessRecord(record)
+	_, errs := srvc.ProcessBatch(records)
 
 	// assert
-	assert.Equal(t, db.segsCounter, actualCount)
+	assert.Empty(t, errs, "não deveria haver erros")
+	assert.Equal(t, expectedCount, db.segsCounter)
 }
