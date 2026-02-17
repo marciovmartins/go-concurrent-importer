@@ -1,0 +1,5 @@
+1,PATIENT,João Silva,{"age":45,"gender":"M","risk":"high"}
+1,SPECIALTY,Cardiologia,{"priority":1,"chronic":true}
+1,DRUG,Losartana,{"dosage":"50mg","frequency":"daily"}
+2,PATIENT,Maria Souza,{"age":32,"gender":"F","pregnant":false}
+2,DRUG,Metformina,{"dosage":"850mg","frequency":"2x_day"}
