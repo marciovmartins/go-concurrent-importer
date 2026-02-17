@@ -20,5 +20,5 @@ go mod tidy
 ### Test
 ```bash
 cd app/internal/service/
-go test -v
+go test -v -race
 ```
