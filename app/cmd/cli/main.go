@@ -13,7 +13,7 @@ func main() {
 		log.Fatal("nao foi possivel iniciar a app")
 	}
 
-	path := "segmentations.csv"
+	path := "../test/segmentations.csv"
 	handler := cli.NewCliHandler(ctn)
 	handler.ProcessCSV(path)
 }

@@ -6,12 +6,12 @@ import (
 	"go-concurrent-importer/internal/service"
 )
 
+
  type CliApp struct {
 	SegmentationService *service.SegmentationService
  }
 
  func NewCliApp() (*CliApp, error) {
-
 	db := database.GetGormDB()
 	segRepo := gormRepo.NewSegmentationGormRepository(db)
 	segService := service.NewSegmentationService(segRepo)

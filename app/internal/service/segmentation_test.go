@@ -57,9 +57,11 @@ func TestProcessRecord(t *testing.T) {
 		`{"age":45,"gender":"M","risk":"high"}`,
 	}
 
+	actualCount := db.segsCounter+1 // unsual in deterministic tests but, good for concurrent tests with `-race` parameter
+
 	// act
 	srvc.ProcessRecord(record)
 
 	// assert
-	assert.Equal(t, db.segsCounter, int64(1))
+	assert.Equal(t, db.segsCounter, actualCount)
 }
