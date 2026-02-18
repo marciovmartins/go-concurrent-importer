@@ -1,0 +1,31 @@
+name: concurrent
+
+networks:
+  importer-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    external: false
+
+services:
+  postgres:
+    image: postgres:16.0-alpine
+    container_name: postgres
+    hostname: postgres
+    environment:
+      POSTGRES_USER: api_user
+      POSTGRES_PASSWORD: api_pass
+      POSTGRES_DB: importer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U api_user -d importer_db"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/
+    networks:
+      - importer-network
+      

@@ -1,0 +1,23 @@
+# Build directories
+/app/bin/
+/app/pkg/
+/app/vendor/
+/app/dist/
+/app/build/
+
+
+# Test Binary
+/app/*.test
+
+# Coverage
+/app/*.out
+
+/app/*.out
+
+# env
+.env
+./app/.env
+
+# vscode
+.vscode/
+/app/.vscode/
