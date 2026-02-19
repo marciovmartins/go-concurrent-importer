@@ -78,7 +78,7 @@ A aplicação foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
 Crie uma copia do arquivo `./app/.env.SAMPLE` e renomeie para `./app/.env`, entao rode os seguintes comandos:
 
 ```bash
-docker compose up -r
+docker compose up -d
 cd app
 go mod tidy
 ```
