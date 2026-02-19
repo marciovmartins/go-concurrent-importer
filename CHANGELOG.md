@@ -1,4 +1,4 @@
-## [0.0.5] - 2026-02-18
+## [0.0.5] - 2026-02-19
 - Melhorias na `CLI App`
 - Melhorias no `README`
 

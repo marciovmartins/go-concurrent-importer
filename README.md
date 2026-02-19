@@ -34,13 +34,16 @@ __[Go Concurrent Importer](#header)__<br/>
   3.  💻 [Instalando](#install)
   4.  💻 [Rodando](#run)
   5.  ✅ [Testando](#tests)
-  6.  🤖 [Uso de IA](#ia)
-  7.  🏁 [Conclusão](#conclusion)
+  6.  🔢 [Versões](#versions)
+  7.  🤖 [Uso de IA](#ia)
+  8.  🏁 [Conclusão](#conclusion)
 
 ---
 
+<br/>
+
 <a id="about"></a>
-## 📖 Sobre
+### 📖 Sobre
 
 >  **Cenário:**
 >  - Ler um arquivo CSV com 4 colunas: user_id, segment_type, segment_name e data
@@ -58,10 +61,12 @@ A aplicação foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
 
 [⤴️ de volta ao índice](#index)
 
+---
+
 <br/>
 
 <a id="install"></a>
-## 💻 Instalando
+### 💻 Instalando
 
 `Docker` e `Docker Compose` são necessários para rodar a aplicação de forma containerizada, e é fortemente recomendado utilizá-los para rodar o banco de dados e demais dependências localmente. Siga as instruções abaixo caso não tenha esses softwares instalados em sua máquina:
 
@@ -69,6 +74,8 @@ A aplicação foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
 - &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker Compose](https://docs.docker.com/compose/install/)
 
 <br/>
+
+Crie uma copia do arquivo `./app/.env.SAMPLE` e renomeie para `./app/.env`, entao rode os seguintes comandos:
 
 ```bash
 docker compose up -r
@@ -80,8 +87,12 @@ go mod tidy
 
 [⤴️ de volta ao índice](#index)
 
+---
+
+<br/>
+
 <a id="run"></a>
-## 💻 Rodando
+### 💻 Rodando
 Com o docker rodando e a app instalada, digite:
 ```bash
 cd app
@@ -100,8 +111,12 @@ go run ./cmd/cli/main.go
 
 [⤴️ de volta ao índice](#index)
 
+---
+
+<br/>
+
 <a id="tests"></a>
-## ✅ Testando
+### ✅ Testando
 ```bash
 cd app/internal/service/
 go test -v -race
@@ -112,6 +127,23 @@ go test -v -race
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
+
+<a id="versions"></a>
+### 🔢 Versões
+
+As tags de versões estão sendo criadas manualmente a medida que o projeto avança. Cada tarefa é desenvolvida em uma branch a parte (Branch Based, [feature branch](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)) e quando finalizadas é gerada tag e mergeadas em main.
+
+Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.md).
+
+<br/>
+
+[⤴️ de volta ao Index](#index)
+
+---
+
+<br/>
 
 <a id="ia"></a>
 ### 🤖 Uso de IA
@@ -134,6 +166,8 @@ IA também é utilizada em minhas pesquisas e estudos como ferramenta de apoio e
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
 
 <a id="conclusion"></a>
 ### 🏁 Conclusão
