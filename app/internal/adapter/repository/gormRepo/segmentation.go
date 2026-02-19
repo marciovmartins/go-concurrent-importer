@@ -17,3 +17,7 @@ func NewSegmentationGormRepository(db *gorm.DB) *SegmentationGorm {
 func (r *SegmentationGorm) Save(data *entity.Segmentation) error {
 	return r.db.Create(data).Error
 }
+
+func (r *SegmentationGorm) SaveBatch(dataSet []*entity.Segmentation) error {
+    return r.db.CreateInBatches(dataSet, len(dataSet)).Error;
+}

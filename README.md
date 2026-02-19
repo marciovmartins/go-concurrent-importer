@@ -45,7 +45,7 @@ __[Go Concurrent Importer](#header)__<br/>
 <a id="about"></a>
 ### 📖 Sobre
 
->  **Cenário:**
+>  **POC para o seguinte cenário:**
 >  - Ler um arquivo CSV com 4 colunas: user_id, segment_type, segment_name e data
 >  - Este arquivo terá 1 milhão de linhas
 >  - O processamento deve ser performático e otimizado
@@ -101,8 +101,16 @@ go run ./cmd/cli/main.go
 
 <br/>
 
+Quando o arquivo CSV for exigido informe o path adequado existente no projeto
+```bash
+Bem vindo ao go-concurrent-importer versão: 0.0.6 
+Informe o caminho do arquivo CSV: ../test/segmentations_500k.csv
+```
+
+<br/>
+
 <div align="center">
-  <img src="./docs/assets/images/layout/screen-captures/run_500k.png">
+  <img src="./docs/assets/images/layout/screen-captures/run_save_batch_500k.png">
   <br/>
   <i>Importando um caminho incorreto e, em seguida, um caminho válido com 500 mil linhas</i>
 </div>
@@ -175,7 +183,6 @@ IA também é utilizada em minhas pesquisas e estudos como ferramenta de apoio e
 Os principais requisitos foram atendidos, mas existem pontos de melhoria evidentes que devem ser priorizados em projetos continuados.
 
 - **Pontos de melhoria**
-  - **GORM – saveBatch**: atualmente o salvamento está sendo feito registro a registro, o que torna o processo extremamente lento. Inserções em lote (`batch inserts`) devem resolver esse problema.
   - **Cobertura de testes**: aumentar consideravelmente a suíte de testes. Iniciei com testes simples na camada de `service`, porém `repository` e `handler` ainda necessitam de mais cuidado e maior cobertura.
   - **Validação**: validar os dados de `segmentations` utilizando `go-playground/validator` para maior assertividade.
   - **Idempotência**: para testes de volume, não foi considerada a idempotência nem o uso de `upserts`. É necessário direcionamento de `stakeholders` e especialistas de domínio para definição dessa estratégia.
@@ -196,7 +203,7 @@ Os principais requisitos foram atendidos, mas existem pontos de melhoria evident
 
 <br/>
 
-Este desafio me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
+Essa POC me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
 
 <br/>
 

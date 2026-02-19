@@ -24,20 +24,20 @@ func (s *SegmentationService) ProcessBatch(records [][]string) ([]*entity.Segmen
     var errors []error
     
     for i, record := range records {
-		// TODO: ProcessRecord ONLY for validation in `dev time`
-        seg, err := s.processRecord(record)
+		seg, err := mapRecordToSegmentationEntity(record)
         if err != nil {
             errors = append(errors, fmt.Errorf("linha %d: %w", i+1, err))
             continue
         }
-        segmentations = append(segmentations, seg)
+		segmentations = append(segmentations, seg)
     }
+
+	s.segRepo.SaveBatch(segmentations)
 
     return segmentations, errors
 }
 
-func (s *SegmentationService) processRecord(record []string) (*entity.Segmentation, error) {
-
+func mapRecordToSegmentationEntity(record []string)(*entity.Segmentation, error){
 	if len(record) < 4 {
 		return nil, fmt.Errorf("invalid columns: %v", record)
 	}
@@ -47,19 +47,12 @@ func (s *SegmentationService) processRecord(record []string) (*entity.Segmentati
 	name := strings.TrimSpace(record[2])
 	dataStr := strings.TrimSpace(record[3])
 
-	segmentation := &entity.Segmentation{
+	return &entity.Segmentation{
 		UserID:           int64(userID),
 		Type: 			  typ,
 		Name: 			  name,
 		Data:             dataStr,
 		CreatedAt:        time.Now(),
 		UpdatedAt:        time.Now(),
-	}
-
-	err := s.segRepo.Save(segmentation)
-	if err != nil {
-		return nil, err
-	}
-
-	return segmentation, nil
+	}, nil
 }

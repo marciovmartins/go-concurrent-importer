@@ -42,6 +42,19 @@ func (s *segFakeRepo) Save(data *entity.Segmentation) error {
 	return nil
 }
 
+func (s *segFakeRepo) SaveBatch(dataSet []*entity.Segmentation) error {
+	for _, data := range dataSet {
+		lastID := atomic.AddInt64(&s.db.segsCounter, 1)
+
+		data.ID = lastID
+		data.CreatedAt = time.Now().UTC()
+		data.UpdatedAt = time.Now().UTC()
+
+		s.db.segs.Store(lastID, []entity.Segmentation{*data})
+	}
+
+	return nil
+}
 
 
 func TestProcessRecord(t *testing.T) {
@@ -55,7 +68,7 @@ func TestProcessRecord(t *testing.T) {
 			"1",
 			"PATIENT",
 			"João Silva",
-			`{"age":45,"gender":"M","risk":"high"}`,
+			`{""age"":45,""gender"":""M"",""risk"":""high""}`,
 		},
 	}
 
