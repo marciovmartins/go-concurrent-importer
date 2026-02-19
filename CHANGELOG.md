@@ -1,6 +1,7 @@
 ## [0.0.4] - 2026-02-18
 - Adicionado `Docker` 
 - Adicionadas `Envs` e `Confs` de acesso ao `Postgres`
+- Processando `100k` ou `500k` sem verificar `idempotência`
 
 ## [0.0.3] - 2026-02-17
 - Melhorando o `README`

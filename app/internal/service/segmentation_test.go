@@ -30,14 +30,14 @@ func newSegFakeRepo(db *dbFake) *segFakeRepo{
 	}
 }
 
-func (s *segFakeRepo) Save(data entity.Segmentation) error {
+func (s *segFakeRepo) Save(data *entity.Segmentation) error {
 	lastID := atomic.AddInt64(&s.db.segsCounter, 1)
 
 	data.ID = lastID
 	data.CreatedAt = time.Now().UTC()
 	data.UpdatedAt = time.Now().UTC()
 
-	s.db.segs.Store(lastID, []entity.Segmentation{data})
+	s.db.segs.Store(lastID, []entity.Segmentation{*data})
 
 	return nil
 }

@@ -3,20 +3,24 @@ package cli
 import (
 	"bufio"
 	"encoding/csv"
+	"go-concurrent-importer/config"
 	"go-concurrent-importer/container"
 	"io"
 	"log"
 	"os"
 	"sync"
+	"time"
 )
 
 type cliHandler struct {
 	cliApp *container.CliApp
+	cfg *config.CLI
 }
 
-func NewCliHandler(cliApp *container.CliApp) *cliHandler{
+func NewCliHandler(cliApp *container.CliApp, cfg *config.CLI) *cliHandler{
 	return &cliHandler{
 		cliApp,
+		cfg,
 	}
 }
 
@@ -30,19 +34,17 @@ func NewCliHandler(cliApp *container.CliApp) *cliHandler{
 // - Salvar no banco de dados
 // - Se houver erro, mostrar ou salvar essa informação de alguma forma
 func (ch *cliHandler) ProcessCSV(path string) {
-	// Configs
-	numWorkers := 10
-	batchSize := 100
-
 	// Channels
-	recordsChan := make(chan []string, numWorkers*2)
+	recordsChan := make(chan []string, ch.cfg.NumWorkers*2)
 	errorsChan := make(chan []error, 100)
+
+	start := time.Now()
 
 	// Init Workers
 	var wg sync.WaitGroup
-	for i := 0; i < numWorkers; i++ {
+	for i := 0; i < ch.cfg.NumWorkers; i++ {
 		wg.Add(1)
-		go ch.worker(batchSize, recordsChan, errorsChan, &wg)
+		go ch.worker(recordsChan, errorsChan, &wg)
 	}
 
 	// read csv
@@ -75,6 +77,9 @@ func (ch *cliHandler) ProcessCSV(path string) {
 
 	// Aguarda collectErrors terminar
 	errWg.Wait()
+
+	elapsed := time.Since(start)
+	log.Printf("tempo decorrido %s", elapsed)
 }
 
 func (ch *cliHandler) readCSVStreaming (path string, out chan<- []string) error {
