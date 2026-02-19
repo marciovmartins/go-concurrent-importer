@@ -18,8 +18,7 @@ func main() {
 		log.Fatal("cannot initiate app: ", err)
 	}
 
-	path := "../test/segmentations_100k.csv"
-	handler := cli.NewCliHandler(ctn, &cfg.CLI)
-	handler.ProcessCSV(path)
+	cliHandler := cli.NewCliHandler(ctn, &cfg.CLI)
+	cliHandler.Run()
 }
 

@@ -3,11 +3,15 @@ package cli
 import (
 	"bufio"
 	"encoding/csv"
+	"errors"
+	"fmt"
 	"go-concurrent-importer/config"
 	"go-concurrent-importer/container"
 	"io"
+	"io/fs"
 	"log"
 	"os"
+	"strings"
 	"sync"
 	"time"
 )
@@ -33,12 +37,42 @@ func NewCliHandler(cliApp *container.CliApp, cfg *config.CLI) *cliHandler{
 // - Validar se os dados são válidos
 // - Salvar no banco de dados
 // - Se houver erro, mostrar ou salvar essa informação de alguma forma
-func (ch *cliHandler) ProcessCSV(path string) {
+func (ch *cliHandler) Run() {
+	fmt.Printf("Bem vindo ao %s versão: %s \n", ch.cfg.Name, ch.cfg.TagVersion)
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Print("Informe o caminho do arquivo CSV: ")
+		path, _ := reader.ReadString('\n')
+		path = strings.TrimSpace(path)
+
+		info, err := os.Stat(path)
+		if err != nil {
+			if errors.Is(err, fs.ErrNotExist) {
+				fmt.Println("Arquivo não encontrado. Tente novamente.")
+				continue
+			}
+			fmt.Printf("Erro ao acessar arquivo: %v\n", err)
+			continue
+		}
+
+		if info.IsDir() {
+			fmt.Println("O caminho informado é um diretório, não um arquivo.")
+			continue
+		}
+
+		fmt.Println("Arquivo encontrado, aguarde a importação")
+		ch.processCSV(path)
+	}
+}
+
+
+func (ch *cliHandler) processCSV(path string) {
+	start := time.Now()
+
 	// Channels
 	recordsChan := make(chan []string, ch.cfg.NumWorkers*2)
 	errorsChan := make(chan []error, 100)
-
-	start := time.Now()
 
 	// Init Workers
 	var wg sync.WaitGroup

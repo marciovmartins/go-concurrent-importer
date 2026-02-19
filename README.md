@@ -35,6 +35,7 @@ __[Go Concurrent Importer](#header)__<br/>
   4.  💻 [Rodando](#run)
   5.  ✅ [Testando](#tests)
   6.  🤖 [Uso de IA](#ia)
+  7.  🏁 [Conclusão](#conclusion)
 
 ---
 
@@ -51,7 +52,7 @@ __[Go Concurrent Importer](#header)__<br/>
 >
 > ---
 
-A aplicação Dockerizada foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
+A aplicação foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
 
 <br/>
 
@@ -67,6 +68,7 @@ A aplicação Dockerizada foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS
 - &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker](https://docs.docker.com/engine/install/)
 - &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker Compose](https://docs.docker.com/compose/install/)
 
+<br/>
 
 ```bash
 docker compose up -r
@@ -76,15 +78,27 @@ go mod tidy
 
 <br/>
 
+[⤴️ de volta ao índice](#index)
+
 <a id="run"></a>
 ## 💻 Rodando
-Com o docker rodando e a app instlada, digite:
+Com o docker rodando e a app instalada, digite:
 ```bash
 cd app
 go run ./cmd/cli/main.go
 ```
 
 <br/>
+
+<div align="center">
+  <img src="./docs/assets/images/layout/screen-captures/run_500k.png">
+  <br/>
+  <i>Importando um caminho incorreto e, em seguida, um caminho válido com 500 mil linhas</i>
+</div>
+
+<br/>
+
+[⤴️ de volta ao índice](#index)
 
 <a id="tests"></a>
 ## ✅ Testando
@@ -120,6 +134,42 @@ IA também é utilizada em minhas pesquisas e estudos como ferramenta de apoio e
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<a id="conclusion"></a>
+### 🏁 Conclusão
+
+Os principais requisitos foram atendidos, mas existem pontos de melhoria evidentes que devem ser priorizados em projetos continuados.
+
+- **Pontos de melhoria**
+  - **GORM – saveBatch**: atualmente o salvamento está sendo feito registro a registro, o que torna o processo extremamente lento. Inserções em lote (`batch inserts`) devem resolver esse problema.
+  - **Cobertura de testes**: aumentar consideravelmente a suíte de testes. Iniciei com testes simples na camada de `service`, porém `repository` e `handler` ainda necessitam de mais cuidado e maior cobertura.
+  - **Validação**: validar os dados de `segmentations` utilizando `go-playground/validator` para maior assertividade.
+  - **Idempotência**: para testes de volume, não foi considerada a idempotência nem o uso de `upserts`. É necessário direcionamento de `stakeholders` e especialistas de domínio para definição dessa estratégia.
+  - **Docker**: dockerizar a aplicação para que ela fique independente da instalação local do Go.
+  - **Esteira de CI**: implementação de uma esteira de `CI` com `GitHub Actions` para garantir mesclagens seguras.
+  - **Esteira de CD**: envio dos `artefatos` (recomenda-se imagens `Docker` publicadas em um `Docker Registry`) para a `pipeline` de `deploy`.
+  - **Sistema de logging**: adoção de um sistema de `logging` mais robusto (recomenda-se `slog` ou `zap`).
+
+<br>
+
+- **Desejáveis**
+  - **REST API**: disponibilização de uma `API REST` para consulta dos segmentos.
+  - **Modelo de dados**: definição de um modelo de dados adequado para consultas de múltiplos segmentos, considerando que existem `DTOs` específicos para diferentes tipos de segmentação. O uso de `triggers` no banco ou um modelo `CQRS` pode ser avaliado nessa etapa.
+  - **Observabilidade**: adoção de ferramentas como `Prometheus`, `Grafana` e `Loki`.
+  - **Teste de performance**: utilização de `Gatling` ou `K6` para validar o fluxo de envio de notificações.
+  - **Teste de carga**: utilização de `Gatling` ou `K6` para validar o volume de notificações.
+
+
+<br/>
+
+Este desafio me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
+
+<br/>
+
+[⤴️ de volta ao índice](#index)
+
+---
+
 
 <a id="footer"></a>
 
