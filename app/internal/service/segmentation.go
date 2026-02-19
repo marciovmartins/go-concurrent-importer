@@ -32,8 +32,6 @@ func (s *SegmentationService) ProcessBatch(records [][]string) ([]*entity.Segmen
         }
         segmentations = append(segmentations, seg)
     }
-    
-	fmt.Println(segmentations)
 
     return segmentations, errors
 }
@@ -49,7 +47,7 @@ func (s *SegmentationService) processRecord(record []string) (*entity.Segmentati
 	name := strings.TrimSpace(record[2])
 	dataStr := strings.TrimSpace(record[3])
 
-	segmentation := entity.Segmentation{
+	segmentation := &entity.Segmentation{
 		UserID:           int64(userID),
 		Type: 			  typ,
 		Name: 			  name,
@@ -63,5 +61,5 @@ func (s *SegmentationService) processRecord(record []string) (*entity.Segmentati
 		return nil, err
 	}
 
-	return &segmentation, nil
+	return segmentation, nil
 }

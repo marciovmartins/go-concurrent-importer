@@ -14,6 +14,6 @@ func NewSegmentationGormRepository(db *gorm.DB) *SegmentationGorm {
 	return &SegmentationGorm{db: db}
 }
 
-func (r *SegmentationGorm) Save(data entity.Segmentation) error {
+func (r *SegmentationGorm) Save(data *entity.Segmentation) error {
 	return r.db.Create(data).Error
 }

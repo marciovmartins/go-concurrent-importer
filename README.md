@@ -39,7 +39,7 @@ __[Go Concurrent Importer](#header)__<br/>
 ---
 
 <a id="about"></a>
-## Sobre
+## 📖 Sobre
 
 >  **Cenário:**
 >  - Ler um arquivo CSV com 4 colunas: user_id, segment_type, segment_name e data
@@ -51,6 +51,8 @@ __[Go Concurrent Importer](#header)__<br/>
 >
 > ---
 
+A aplicação Dockerizada foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
+
 <br/>
 
 [⤴️ de volta ao índice](#index)
@@ -58,8 +60,16 @@ __[Go Concurrent Importer](#header)__<br/>
 <br/>
 
 <a id="install"></a>
-## Instalando
+## 💻 Instalando
+
+`Docker` e `Docker Compose` são necessários para rodar a aplicação de forma containerizada, e é fortemente recomendado utilizá-los para rodar o banco de dados e demais dependências localmente. Siga as instruções abaixo caso não tenha esses softwares instalados em sua máquina:
+
+- &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker](https://docs.docker.com/engine/install/)
+- &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker Compose](https://docs.docker.com/compose/install/)
+
+
 ```bash
+docker compose up -r
 cd app
 go mod tidy
 ```
@@ -67,7 +77,8 @@ go mod tidy
 <br/>
 
 <a id="run"></a>
-## Rodando
+## 💻 Rodando
+Com o docker rodando e a app instlada, digite:
 ```bash
 cd app
 go run ./cmd/cli/main.go
@@ -76,7 +87,7 @@ go run ./cmd/cli/main.go
 <br/>
 
 <a id="tests"></a>
-## Testando
+## ✅ Testando
 ```bash
 cd app/internal/service/
 go test -v -race

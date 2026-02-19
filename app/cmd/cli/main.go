@@ -1,20 +1,25 @@
 package main
 
 import (
+	"go-concurrent-importer/config"
 	"go-concurrent-importer/container"
 	"go-concurrent-importer/internal/cli"
 	"log"
 )
 
 func main() {
-
-	ctn, err := container.NewCliApp()
+	cfg, err := config.LoadConfig(".")
 	if err != nil {
-		log.Fatal("nao foi possivel iniciar a app")
+		log.Fatal("cannot load config: ", err)
+	}
+	
+	ctn, err := container.NewCliApp(cfg)
+	if err != nil {
+		log.Fatal("cannot initiate app: ", err)
 	}
 
-	path := "../test/segmentations.csv"
-	handler := cli.NewCliHandler(ctn)
+	path := "../test/segmentations_100k.csv"
+	handler := cli.NewCliHandler(ctn, &cfg.CLI)
 	handler.ProcessCSV(path)
 }
 
