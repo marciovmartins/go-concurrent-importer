@@ -190,8 +190,8 @@ Os principais requisitos foram atendidos, mas existem pontos de melhoria evident
   - **REST API**: disponibilização de uma `API REST` para consulta dos segmentos.
   - **Modelo de dados**: definição de um modelo de dados adequado para consultas de múltiplos segmentos, considerando que existem `DTOs` específicos para diferentes tipos de segmentação. O uso de `triggers` no banco ou um modelo `CQRS` pode ser avaliado nessa etapa.
   - **Observabilidade**: adoção de ferramentas como `Prometheus`, `Grafana` e `Loki`.
-  - **Teste de performance**: utilização de `Gatling` ou `K6` para validar o fluxo de envio de notificações.
-  - **Teste de carga**: utilização de `Gatling` ou `K6` para validar o volume de notificações.
+  - **Teste de performance**: utilização de `Gatling` ou `K6` para validar CLI.
+  - **Teste de carga**: utilização de `Gatling` ou `K6` para validar CLI.
 
 
 <br/>
