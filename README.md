@@ -34,12 +34,16 @@ __[Go Concurrent Importer](#header)__<br/>
   3.  💻 [Instalando](#install)
   4.  💻 [Rodando](#run)
   5.  ✅ [Testando](#tests)
-  6.  🤖 [Uso de IA](#ia)
+  6.  🔢 [Versões](#versions)
+  7.  🤖 [Uso de IA](#ia)
+  8.  🏁 [Conclusão](#conclusion)
 
 ---
 
+<br/>
+
 <a id="about"></a>
-## 📖 Sobre
+### 📖 Sobre
 
 >  **Cenário:**
 >  - Ler um arquivo CSV com 4 colunas: user_id, segment_type, segment_name e data
@@ -51,22 +55,27 @@ __[Go Concurrent Importer](#header)__<br/>
 >
 > ---
 
-A aplicação Dockerizada foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
+A aplicação foi testada em Sistema Operacional `Ubuntu 22.04.4 LTS`
 
 <br/>
 
 [⤴️ de volta ao índice](#index)
 
+---
+
 <br/>
 
 <a id="install"></a>
-## 💻 Instalando
+### 💻 Instalando
 
 `Docker` e `Docker Compose` são necessários para rodar a aplicação de forma containerizada, e é fortemente recomendado utilizá-los para rodar o banco de dados e demais dependências localmente. Siga as instruções abaixo caso não tenha esses softwares instalados em sua máquina:
 
 - &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker](https://docs.docker.com/engine/install/)
 - &nbsp;<img src='./docs/assets/images/icons/docker.svg' width='13' alt='Github do' title='Github do'>&nbsp;[Instalando Docker Compose](https://docs.docker.com/compose/install/)
 
+<br/>
+
+Crie uma copia do arquivo `./app/.env.SAMPLE` e renomeie para `./app/.env`, entao rode os seguintes comandos:
 
 ```bash
 docker compose up -r
@@ -76,9 +85,15 @@ go mod tidy
 
 <br/>
 
+[⤴️ de volta ao índice](#index)
+
+---
+
+<br/>
+
 <a id="run"></a>
-## 💻 Rodando
-Com o docker rodando e a app instlada, digite:
+### 💻 Rodando
+Com o docker rodando e a app instalada, digite:
 ```bash
 cd app
 go run ./cmd/cli/main.go
@@ -86,8 +101,22 @@ go run ./cmd/cli/main.go
 
 <br/>
 
+<div align="center">
+  <img src="./docs/assets/images/layout/screen-captures/run_500k.png">
+  <br/>
+  <i>Importando um caminho incorreto e, em seguida, um caminho válido com 500 mil linhas</i>
+</div>
+
+<br/>
+
+[⤴️ de volta ao índice](#index)
+
+---
+
+<br/>
+
 <a id="tests"></a>
-## ✅ Testando
+### ✅ Testando
 ```bash
 cd app/internal/service/
 go test -v -race
@@ -98,6 +127,23 @@ go test -v -race
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
+
+<a id="versions"></a>
+### 🔢 Versões
+
+As tags de versões estão sendo criadas manualmente a medida que o projeto avança. Cada tarefa é desenvolvida em uma branch a parte (Branch Based, [feature branch](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)) e quando finalizadas é gerada tag e mergeadas em main.
+
+Para obter mais informações, consulte o [Histórico de Versões](./CHANGELOG.md).
+
+<br/>
+
+[⤴️ de volta ao Index](#index)
+
+---
+
+<br/>
 
 <a id="ia"></a>
 ### 🤖 Uso de IA
@@ -120,6 +166,44 @@ IA também é utilizada em minhas pesquisas e estudos como ferramenta de apoio e
 [⤴️ de volta ao índice](#index)
 
 ---
+
+<br/>
+
+<a id="conclusion"></a>
+### 🏁 Conclusão
+
+Os principais requisitos foram atendidos, mas existem pontos de melhoria evidentes que devem ser priorizados em projetos continuados.
+
+- **Pontos de melhoria**
+  - **GORM – saveBatch**: atualmente o salvamento está sendo feito registro a registro, o que torna o processo extremamente lento. Inserções em lote (`batch inserts`) devem resolver esse problema.
+  - **Cobertura de testes**: aumentar consideravelmente a suíte de testes. Iniciei com testes simples na camada de `service`, porém `repository` e `handler` ainda necessitam de mais cuidado e maior cobertura.
+  - **Validação**: validar os dados de `segmentations` utilizando `go-playground/validator` para maior assertividade.
+  - **Idempotência**: para testes de volume, não foi considerada a idempotência nem o uso de `upserts`. É necessário direcionamento de `stakeholders` e especialistas de domínio para definição dessa estratégia.
+  - **Docker**: dockerizar a aplicação para que ela fique independente da instalação local do Go.
+  - **Esteira de CI**: implementação de uma esteira de `CI` com `GitHub Actions` para garantir mesclagens seguras.
+  - **Esteira de CD**: envio dos `artefatos` (recomenda-se imagens `Docker` publicadas em um `Docker Registry`) para a `pipeline` de `deploy`.
+  - **Sistema de logging**: adoção de um sistema de `logging` mais robusto (recomenda-se `slog` ou `zap`).
+
+<br>
+
+- **Desejáveis**
+  - **REST API**: disponibilização de uma `API REST` para consulta dos segmentos.
+  - **Modelo de dados**: definição de um modelo de dados adequado para consultas de múltiplos segmentos, considerando que existem `DTOs` específicos para diferentes tipos de segmentação. O uso de `triggers` no banco ou um modelo `CQRS` pode ser avaliado nessa etapa.
+  - **Observabilidade**: adoção de ferramentas como `Prometheus`, `Grafana` e `Loki`.
+  - **Teste de performance**: utilização de `Gatling` ou `K6` para validar o fluxo de envio de notificações.
+  - **Teste de carga**: utilização de `Gatling` ou `K6` para validar o volume de notificações.
+
+
+<br/>
+
+Este desafio me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
+
+<br/>
+
+[⤴️ de volta ao índice](#index)
+
+---
+
 
 <a id="footer"></a>
 

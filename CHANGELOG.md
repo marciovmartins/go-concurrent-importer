@@ -1,3 +1,7 @@
+## [0.0.5] - 2026-02-19
+- Melhorias na `CLI App`
+- Melhorias no `README`
+
 ## [0.0.4] - 2026-02-18
 - Adicionado `Docker` 
 - Adicionadas `Envs` e `Confs` de acesso ao `Postgres`
@@ -16,6 +20,7 @@
 ## [0.0.0] - 2026-02-05
 - Commit Inicial exatamente como o desafio foi apresentado
 
+[0.0.5]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.1...v0.0.2
