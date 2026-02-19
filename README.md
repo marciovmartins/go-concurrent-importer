@@ -45,7 +45,7 @@ __[Go Concurrent Importer](#header)__<br/>
 <a id="about"></a>
 ### 📖 Sobre
 
->  **Cenário:**
+>  **POC para o seguinte cenário:**
 >  - Ler um arquivo CSV com 4 colunas: user_id, segment_type, segment_name e data
 >  - Este arquivo terá 1 milhão de linhas
 >  - O processamento deve ser performático e otimizado
@@ -203,7 +203,7 @@ Os principais requisitos foram atendidos, mas existem pontos de melhoria evident
 
 <br/>
 
-Este desafio me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
+Essa POC me permite consolidar conhecimentos e identificar pontos cegos para aprimoramento. Continuarei trabalhando para evoluir o projeto e expandir minhas habilidades.
 
 <br/>
 
