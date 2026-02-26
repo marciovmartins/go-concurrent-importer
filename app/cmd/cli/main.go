@@ -13,7 +13,7 @@ func main() {
 		log.Fatal("cannot load config: ", err)
 	}
 
-	ctn, err := container.NewContainer(cfg)
+	ctn, err := container.New(cfg)
 	if err != nil {
 		log.Fatal("cannot initiate app: ", err)
 	}

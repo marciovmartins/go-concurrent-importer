@@ -11,7 +11,7 @@ type Container struct {
 	SegmentationService *service.SegmentationService
 }
 
-func NewContainer(cfg *config.Config) (*Container, error) {
+func New(cfg *config.Config) (*Container, error) {
 	db, err := database.GetGormDB(cfg.Database)
 	if err != nil {
 
