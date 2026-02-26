@@ -22,7 +22,7 @@ type cliHandler struct {
 	cfg                 *config.CLI
 }
 
-func NewCliHandler(ctn *container.Container, cfg *config.CLI) *cliHandler {
+func New(ctn *container.Container, cfg *config.CLI) *cliHandler {
 	return &cliHandler{
 		ctn.SegmentationService,
 		cfg,
