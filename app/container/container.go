@@ -7,11 +7,11 @@ import (
 	"go-concurrent-importer/internal/service"
 )
 
- type CliApp struct {
+type Container struct {
 	SegmentationService *service.SegmentationService
- }
+}
 
- func NewCliApp(cfg *config.Config) (*CliApp, error) {
+func NewContainer(cfg *config.Config) (*Container, error) {
 	db, err := database.GetGormDB(cfg.Database)
 	if err != nil {
 
@@ -20,7 +20,7 @@ import (
 
 	segService := service.NewSegmentationService(segRepo)
 
-	return &CliApp{
+	return &Container{
 		SegmentationService: segService,
 	}, nil
- }
+}

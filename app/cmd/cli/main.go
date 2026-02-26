@@ -12,8 +12,8 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot load config: ", err)
 	}
-	
-	ctn, err := container.NewCliApp(cfg)
+
+	ctn, err := container.NewContainer(cfg)
 	if err != nil {
 		log.Fatal("cannot initiate app: ", err)
 	}
@@ -21,4 +21,3 @@ func main() {
 	cliHandler := cli.NewCliHandler(ctn, &cfg.CLI)
 	cliHandler.Run()
 }
-

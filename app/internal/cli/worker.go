@@ -5,7 +5,7 @@ import (
 )
 
 func (ch *cliHandler) worker(
-	recordsChan <-chan  []string,
+	recordsChan <-chan []string,
 	errorsChan chan<- []error,
 	wg *sync.WaitGroup,
 ) {
@@ -18,7 +18,7 @@ func (ch *cliHandler) worker(
 
 		if len(batch) >= ch.cfg.BatchSize {
 			// saves batch
-			_, errs := ch.cliApp.SegmentationService.ProcessBatch(batch)
+			_, errs := ch.segmentationService.ProcessBatch(batch)
 			if len(errs) > 0 {
 				errorsChan <- errs
 			}
@@ -27,7 +27,7 @@ func (ch *cliHandler) worker(
 	}
 
 	if len(batch) > 0 {
-		_, errs := ch.cliApp.SegmentationService.ProcessBatch(batch)
+		_, errs := ch.segmentationService.ProcessBatch(batch)
 		if len(errs) > 0 {
 			errorsChan <- errs
 		}

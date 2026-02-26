@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"go-concurrent-importer/config"
 	"go-concurrent-importer/container"
+	"go-concurrent-importer/internal/service"
 	"io"
 	"io/fs"
 	"log"
@@ -17,13 +18,13 @@ import (
 )
 
 type cliHandler struct {
-	cliApp *container.CliApp
-	cfg *config.CLI
+	segmentationService *service.SegmentationService
+	cfg                 *config.CLI
 }
 
-func NewCliHandler(cliApp *container.CliApp, cfg *config.CLI) *cliHandler{
+func NewCliHandler(ctn *container.Container, cfg *config.CLI) *cliHandler {
 	return &cliHandler{
-		cliApp,
+		ctn.SegmentationService,
 		cfg,
 	}
 }
@@ -65,7 +66,6 @@ func (ch *cliHandler) Run() {
 		ch.processCSV(path)
 	}
 }
-
 
 func (ch *cliHandler) processCSV(path string) {
 	start := time.Now()
@@ -116,7 +116,7 @@ func (ch *cliHandler) processCSV(path string) {
 	log.Printf("tempo decorrido %s", elapsed)
 }
 
-func (ch *cliHandler) readCSVStreaming (path string, out chan<- []string) error {
+func (ch *cliHandler) readCSVStreaming(path string, out chan<- []string) error {
 	file, err := os.Open(path)
 	if err != nil {
 		return err
@@ -142,7 +142,7 @@ func (ch *cliHandler) readCSVStreaming (path string, out chan<- []string) error 
 	return nil
 }
 
-func (ch *cliHandler) collectErrors (errs <-chan []error){
+func (ch *cliHandler) collectErrors(errs <-chan []error) {
 	var count int
 
 	for err := range errs {
