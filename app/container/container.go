@@ -16,7 +16,7 @@ func New(cfg *config.Config) (*Container, error) {
 	if err != nil {
 
 	}
-	segRepo := gormRepo.NewSegmentationGormRepository(db)
+	segRepo := gormRepo.New(db)
 
 	segService := service.New(segRepo)
 

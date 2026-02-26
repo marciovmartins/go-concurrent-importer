@@ -10,7 +10,7 @@ type SegmentationGorm struct {
 	db *gorm.DB
 }
 
-func NewSegmentationGormRepository(db *gorm.DB) *SegmentationGorm {
+func New(db *gorm.DB) *SegmentationGorm {
 	return &SegmentationGorm{db: db}
 }
 
@@ -19,5 +19,5 @@ func (r *SegmentationGorm) Save(data *entity.Segmentation) error {
 }
 
 func (r *SegmentationGorm) SaveBatch(dataSet []*entity.Segmentation) error {
-    return r.db.CreateInBatches(dataSet, len(dataSet)).Error;
+	return r.db.CreateInBatches(dataSet, len(dataSet)).Error
 }
