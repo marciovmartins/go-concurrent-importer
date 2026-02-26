@@ -10,8 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-
-type dbFake struct{
+type dbFake struct {
 	segs        sync.Map // key: int64 | value: []entity.Segmentation
 	segsCounter int64
 }
@@ -20,11 +19,11 @@ func newDBFake() *dbFake {
 	return &dbFake{}
 }
 
-type segFakeRepo struct{
+type segFakeRepo struct {
 	db *dbFake
 }
 
-func newSegFakeRepo(db *dbFake) *segFakeRepo{
+func newSegFakeRepo(db *dbFake) *segFakeRepo {
 	return &segFakeRepo{
 		db,
 	}
@@ -56,12 +55,11 @@ func (s *segFakeRepo) SaveBatch(dataSet []*entity.Segmentation) error {
 	return nil
 }
 
-
 func TestProcessRecord(t *testing.T) {
 	// arrange
 	db := newDBFake()
 	repo := newSegFakeRepo(db)
-	srvc := NewSegmentationService(repo)
+	srvc := New(repo)
 
 	records := [][]string{
 		{

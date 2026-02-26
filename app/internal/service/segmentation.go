@@ -13,31 +13,31 @@ type SegmentationService struct {
 	segRepo repository.Segmentation
 }
 
-func NewSegmentationService(segRepo repository.Segmentation) *SegmentationService {
+func New(segRepo repository.Segmentation) *SegmentationService {
 	return &SegmentationService{
 		segRepo,
 	}
 }
 
 func (s *SegmentationService) ProcessBatch(records [][]string) ([]*entity.Segmentation, []error) {
-    var segmentations []*entity.Segmentation
-    var errors []error
-    
-    for i, record := range records {
+	var segmentations []*entity.Segmentation
+	var errors []error
+
+	for i, record := range records {
 		seg, err := mapRecordToSegmentationEntity(record)
-        if err != nil {
-            errors = append(errors, fmt.Errorf("linha %d: %w", i+1, err))
-            continue
-        }
+		if err != nil {
+			errors = append(errors, fmt.Errorf("linha %d: %w", i+1, err))
+			continue
+		}
 		segmentations = append(segmentations, seg)
-    }
+	}
 
 	s.segRepo.SaveBatch(segmentations)
 
-    return segmentations, errors
+	return segmentations, errors
 }
 
-func mapRecordToSegmentationEntity(record []string)(*entity.Segmentation, error){
+func mapRecordToSegmentationEntity(record []string) (*entity.Segmentation, error) {
 	if len(record) < 4 {
 		return nil, fmt.Errorf("invalid columns: %v", record)
 	}
@@ -48,11 +48,11 @@ func mapRecordToSegmentationEntity(record []string)(*entity.Segmentation, error)
 	dataStr := strings.TrimSpace(record[3])
 
 	return &entity.Segmentation{
-		UserID:           int64(userID),
-		Type: 			  typ,
-		Name: 			  name,
-		Data:             dataStr,
-		CreatedAt:        time.Now(),
-		UpdatedAt:        time.Now(),
+		UserID:    int64(userID),
+		Type:      typ,
+		Name:      name,
+		Data:      dataStr,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}, nil
 }
