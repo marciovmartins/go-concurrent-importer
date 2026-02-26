@@ -3,12 +3,12 @@ package container
 import (
 	"go-concurrent-importer/config"
 	"go-concurrent-importer/internal/adapter/database"
-	"go-concurrent-importer/internal/adapter/repository/gormRepo"
+	"go-concurrent-importer/internal/adapter/repository/gormrepo"
 	"go-concurrent-importer/internal/service"
 )
 
 type Container struct {
-	SegmentationService *service.SegmentationService
+	SegmentationService *service.Segmentation
 }
 
 func New(cfg *config.Config) (*Container, error) {
@@ -16,9 +16,9 @@ func New(cfg *config.Config) (*Container, error) {
 	if err != nil {
 
 	}
-	segRepo := gormRepo.New(db)
+	segRepo := gormrepo.NewSegmentation(db)
 
-	segService := service.New(segRepo)
+	segService := service.NewSegmentation(segRepo)
 
 	return &Container{
 		SegmentationService: segService,

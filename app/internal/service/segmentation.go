@@ -9,17 +9,17 @@ import (
 	"time"
 )
 
-type SegmentationService struct {
+type Segmentation struct {
 	segRepo repository.Segmentation
 }
 
-func New(segRepo repository.Segmentation) *SegmentationService {
-	return &SegmentationService{
+func NewSegmentation(segRepo repository.Segmentation) *Segmentation {
+	return &Segmentation{
 		segRepo,
 	}
 }
 
-func (s *SegmentationService) ProcessBatch(records [][]string) ([]*entity.Segmentation, []error) {
+func (s *Segmentation) ProcessBatch(records [][]string) ([]*entity.Segmentation, []error) {
 	var segmentations []*entity.Segmentation
 	var errors []error
 

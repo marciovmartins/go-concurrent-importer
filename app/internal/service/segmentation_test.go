@@ -59,7 +59,7 @@ func TestProcessRecord(t *testing.T) {
 	// arrange
 	db := newDBFake()
 	repo := newSegFakeRepo(db)
-	srvc := New(repo)
+	srvc := NewSegmentation(repo)
 
 	records := [][]string{
 		{

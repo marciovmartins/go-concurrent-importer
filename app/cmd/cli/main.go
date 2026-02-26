@@ -18,6 +18,6 @@ func main() {
 		log.Fatal("cannot initiate app: ", err)
 	}
 
-	cliHandler := cli.New(ctn, &cfg.CLI)
+	cliHandler := cli.NewHandler(ctn, &cfg.CLI)
 	cliHandler.Run()
 }
