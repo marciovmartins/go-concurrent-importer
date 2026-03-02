@@ -12,8 +12,6 @@
 # Coverage
 /app/*.out
 
-/app/*.out
-
 # env
 .env
 ./app/.env
@@ -21,3 +19,6 @@
 # vscode
 .vscode/
 /app/.vscode/
+
+# IntelliJ IDEA
+/.idea/

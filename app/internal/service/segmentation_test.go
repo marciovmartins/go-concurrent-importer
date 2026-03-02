@@ -1,67 +1,17 @@
 package service
 
 import (
-	"go-concurrent-importer/internal/adapter/entity"
-	"sync"
-	"sync/atomic"
+	"go-concurrent-importer/internal/testutil"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-
-type dbFake struct{
-	segs        sync.Map // key: int64 | value: []entity.Segmentation
-	segsCounter int64
-}
-
-func newDBFake() *dbFake {
-	return &dbFake{}
-}
-
-type segFakeRepo struct{
-	db *dbFake
-}
-
-func newSegFakeRepo(db *dbFake) *segFakeRepo{
-	return &segFakeRepo{
-		db,
-	}
-}
-
-func (s *segFakeRepo) Save(data *entity.Segmentation) error {
-	lastID := atomic.AddInt64(&s.db.segsCounter, 1)
-
-	data.ID = lastID
-	data.CreatedAt = time.Now().UTC()
-	data.UpdatedAt = time.Now().UTC()
-
-	s.db.segs.Store(lastID, []entity.Segmentation{*data})
-
-	return nil
-}
-
-func (s *segFakeRepo) SaveBatch(dataSet []*entity.Segmentation) error {
-	for _, data := range dataSet {
-		lastID := atomic.AddInt64(&s.db.segsCounter, 1)
-
-		data.ID = lastID
-		data.CreatedAt = time.Now().UTC()
-		data.UpdatedAt = time.Now().UTC()
-
-		s.db.segs.Store(lastID, []entity.Segmentation{*data})
-	}
-
-	return nil
-}
-
-
 func TestProcessRecord(t *testing.T) {
 	// arrange
-	db := newDBFake()
-	repo := newSegFakeRepo(db)
-	srvc := NewSegmentationService(repo)
+	db := testutil.NewDbFake()
+	repo := testutil.NewFakeRepository(db)
+	srvc := NewSegmentation(repo)
 
 	records := [][]string{
 		{
@@ -72,12 +22,12 @@ func TestProcessRecord(t *testing.T) {
 		},
 	}
 
-	expectedCount := db.segsCounter + 1
+	expectedCount := db.SegsCounter + 1
 
 	// act
 	_, errs := srvc.ProcessBatch(records)
 
 	// assert
 	assert.Empty(t, errs, "não deveria haver erros")
-	assert.Equal(t, expectedCount, db.segsCounter)
+	assert.Equal(t, expectedCount, db.SegsCounter)
 }

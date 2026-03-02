@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"go-concurrent-importer/config"
 	"go-concurrent-importer/container"
+	"go-concurrent-importer/internal/service"
 	"io"
 	"io/fs"
 	"log"
@@ -16,14 +17,14 @@ import (
 	"time"
 )
 
-type cliHandler struct {
-	cliApp *container.CliApp
-	cfg *config.CLI
+type Handler struct {
+	segmentationService *service.Segmentation
+	cfg                 *config.CLI
 }
 
-func NewCliHandler(cliApp *container.CliApp, cfg *config.CLI) *cliHandler{
-	return &cliHandler{
-		cliApp,
+func NewHandler(ctn *container.Container, cfg *config.CLI) *Handler {
+	return &Handler{
+		ctn.SegmentationService,
 		cfg,
 	}
 }
@@ -37,8 +38,8 @@ func NewCliHandler(cliApp *container.CliApp, cfg *config.CLI) *cliHandler{
 // - Validar se os dados são válidos
 // - Salvar no banco de dados
 // - Se houver erro, mostrar ou salvar essa informação de alguma forma
-func (ch *cliHandler) Run() {
-	fmt.Printf("Bem vindo ao %s versão: %s \n", ch.cfg.Name, ch.cfg.TagVersion)
+func (h *Handler) Run() {
+	fmt.Printf("Bem vindo ao %s versão: %s \n", h.cfg.Name, h.cfg.TagVersion)
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -62,29 +63,28 @@ func (ch *cliHandler) Run() {
 		}
 
 		fmt.Println("Arquivo encontrado, aguarde a importação")
-		ch.processCSV(path)
+		h.processCSV(path)
 	}
 }
 
-
-func (ch *cliHandler) processCSV(path string) {
+func (h *Handler) processCSV(path string) {
 	start := time.Now()
 
 	// Channels
-	recordsChan := make(chan []string, ch.cfg.NumWorkers*2)
+	recordsChan := make(chan []string, h.cfg.NumWorkers*2)
 	errorsChan := make(chan []error, 100)
 
 	// Init Workers
 	var wg sync.WaitGroup
-	for i := 0; i < ch.cfg.NumWorkers; i++ {
+	for i := 0; i < h.cfg.NumWorkers; i++ {
 		wg.Add(1)
-		go ch.worker(recordsChan, errorsChan, &wg)
+		go h.worker(recordsChan, errorsChan, &wg)
 	}
 
 	// read csv
 	readErrChan := make(chan error, 1)
 	go func() {
-		err := ch.readCSVStreaming(path, recordsChan)
+		err := h.readCSVStreaming(path, recordsChan)
 		readErrChan <- err
 	}()
 
@@ -93,7 +93,7 @@ func (ch *cliHandler) processCSV(path string) {
 	errWg.Add(1)
 	go func() {
 		defer errWg.Done()
-		ch.collectErrors(errorsChan)
+		h.collectErrors(errorsChan)
 	}()
 
 	// Aguarda leitura terminar e pega o erro
@@ -116,7 +116,7 @@ func (ch *cliHandler) processCSV(path string) {
 	log.Printf("tempo decorrido %s", elapsed)
 }
 
-func (ch *cliHandler) readCSVStreaming (path string, out chan<- []string) error {
+func (h *Handler) readCSVStreaming(path string, out chan<- []string) error {
 	file, err := os.Open(path)
 	if err != nil {
 		return err
@@ -142,7 +142,7 @@ func (ch *cliHandler) readCSVStreaming (path string, out chan<- []string) error 
 	return nil
 }
 
-func (ch *cliHandler) collectErrors (errs <-chan []error){
+func (h *Handler) collectErrors(errs <-chan []error) {
 	var count int
 
 	for err := range errs {
