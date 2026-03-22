@@ -1,3 +1,6 @@
+## [0.0.7] - 2026-03-22
+- Adicionado GitHub Actions CI.
+
 ## [0.0.6] - 2026-02-19
 - Adicionado `save batch` via `GORM`
 
@@ -23,6 +26,7 @@
 ## [0.0.0] - 2026-02-05
 - Commit Inicial exatamente como o desafio foi apresentado
 
+[0.0.7]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/jtonynet/go-concurrent-importer/compare/v0.0.3...v0.0.4
