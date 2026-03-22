@@ -1,5 +1,6 @@
 ## [0.0.7] - 2026-03-22
 - Adicionado GitHub Actions CI.
+- Adicionado Mend Renovate Bot.
 
 ## [0.0.6] - 2026-02-19
 - Adicionado `save batch` via `GORM`
