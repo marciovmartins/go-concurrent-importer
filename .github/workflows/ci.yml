@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted ]
     services:
       docker:
         image: docker:24.0.7-dind
