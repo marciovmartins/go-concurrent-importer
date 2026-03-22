@@ -11,12 +11,6 @@ on:
 jobs:
   build:
     runs-on: [ self-hosted ]
-    services:
-      docker:
-        image: docker:24.0.7-dind
-        options: --privileged
-        ports:
-          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
