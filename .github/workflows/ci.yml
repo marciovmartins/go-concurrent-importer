@@ -21,10 +21,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
 
-      - name: Set up Docker Compose
-        run: |
-          docker compose version || sudo apt-get update && sudo apt-get install -y docker-compose-plugin
-
       - name: Start services with Docker Compose
         run: |
           docker compose up -d
