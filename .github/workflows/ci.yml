@@ -15,9 +15,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
 
-      - name: Start services with Docker Compose
-        run: |
-          docker compose up -d
+      # No integration test yet.
+      #- name: Start services with Docker Compose
+      #  run: |
+      #    docker compose up -d
 
       - name: Set up Go
         uses: actions/setup-go@v6.3.0
